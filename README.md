@@ -112,7 +112,35 @@ jQuery.unsubscribe("done", f2);
 
 ## promise对象
 
-## Generator
+> Promise的概念并不是ES6新出的，而是ES6整合了一套新的写法。同样继续上面的例子，使用Promise代码就变成这样了：
+
+```javascript {cmd="node"}
+var readFile = require('fs-readfile-promise');
+readFile(fileA)
+.then((data)=>{console.log(data)})
+.then(()=>{return readFile(fileB)})
+.then((data)=>{console.log(data)})
+// ... 读取n次
+.catch((err)=>{console.log(err)})
+
+// 注意：上面代码使用了Node封装好的Promise版本的readFile函数，它的原理其实就是返回一个Promise对象，咱也简单地写一个：
+var fs = require('fs');
+var readFile = function(path) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(path, (err, data) => {
+            if (err) reject(err)
+            resolve(data)
+        })
+    })
+}
+module.export = readFile
+```
+
+但是，Promise的写法只是回调函数的改进，使用then()之后，异步任务的两段执行看得更清楚，除此之外并无新意。撇开优点，Promise的最大问题就是代码冗余，原来的任务被Promise包装一下，不管什么操作，一眼看上去都是一堆then()，原本的语意变得很不清楚。
+
+## Generator(from es6)
+
+> Generator 函数是 ES6 提供的一种异步编程解决方案，语法行为与传统函数完全不同。
 
 ES6将JavaScript异步编程带入了一个全新的阶段
 
@@ -125,3 +153,5 @@ ES7中的async函数更是给出了异步编程的终极解决方案
 [JS的四种异步方式：：回调/监听/流程控制库/promise](https://blog.csdn.net/lilongsy/article/details/74351989?utm_source=itdadao&utm_medium=referral)
 
 [前端基本知识（四）：JS的异步模式：1、回调函数；2、事件监听；3、观察者模式；4、promise对象](https://www.cnblogs.com/chengxs/p/6497575.html)89  
+
+[JavaScript异步编程的终极演变](https://segmentfault.com/a/1190000006510526)

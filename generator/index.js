@@ -1,12 +1,15 @@
-function* foo() {
-    yield 1;
-    yield 2;
-    yield 3;
-    yield 4;
-    yield 5;
-    return 6;
+
+
+function* objectEntries(obj) {
+    let propKeys = Reflect.ownKeys(obj);
+  
+    for (let propKey of propKeys) {
+      yield [propKey, obj[propKey]];
+    }
   }
   
-  for (let v of foo()) {
-    console.log(v);
+  let jane = { first: 'Jane', last: 'Doe' };
+  
+  for (let [key, value] of objectEntries(jane)) {
+    console.log(`${key}: ${value}`);
   }

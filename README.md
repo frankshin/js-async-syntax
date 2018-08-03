@@ -179,9 +179,8 @@ it.next();
 > ES2017标准引入了async函数，使得异步操作变得更加方便。但它其实是是Generator函数的语法糖
 
 ```javascript {cmd="node"}
-// 一个 Generator 函数，依次读取两个文件。
+// demo1: 一个 Generator 函数，依次读取两个文件。
 const fs = require('fs');
-
 const readFile = function (fileName) {
   return new Promise(function (resolve, reject) {
     fs.readFile(fileName, function(error, data) {
@@ -190,14 +189,12 @@ const readFile = function (fileName) {
     });
   });
 };
-
 const gen = function* () {
   const f1 = yield readFile('/etc/fstab');
   const f2 = yield readFile('/etc/shells');
   console.log(f1.toString());
   console.log(f2.toString());
 };
-
 // 写成async函数，就是下面这样。
 // 比较就会发现，async函数就是将 Generator 函数的星号（*）替换成async，将yield替换成await，仅此而已。
 const asyncReadFile = async function () {
@@ -206,6 +203,16 @@ const asyncReadFile = async function () {
   console.log(f1.toString());
   console.log(f2.toString());
 };
+
+// demo2:
+async function getStockPriceByName(name) {
+  const symbol = await getStockSymbol(name);
+  const stockPrice = await getStockPrice(symbol);
+  return stockPrice;
+}
+getStockPriceByName('goog').then(function (result) {
+  console.log(result);
+});
 
 ```
 
@@ -219,7 +226,20 @@ async函数对 Generator 函数的改进，体现在以下四点。
 
 * 返回值是Promise
 
-详见[阮一峰es6教程](http://es6.ruanyifeng.com/#docs/async)
+async 函数的实现原理：
+async 函数的实现原理，就是将 Generator 函数和自动执行器，包装在一个函数里
+
+```javascript {cmd="node"}
+async function fn(args) {
+    // ...
+}
+// 等同于
+function fn(args) {
+    return spawn(function* () {
+       // ...
+    });
+}
+```
 
 ## 参考文章&感谢
 

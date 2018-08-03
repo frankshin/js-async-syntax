@@ -1,5 +1,7 @@
 # js-async-demos
 
+> 此demo项目仅作为个人对js整个异步编程发展的总结汇总，遂参考了多方资料，已在末尾备注
+
 asynchronous development process of javascript and some demos
 
 ## 回调函数callback
@@ -140,51 +142,84 @@ module.export = readFile
 
 ## Generator(from es6)
 
-> Generator(生成器)函数是ES6提供的一种异步编程解决方案，语法行为与传统函数完全不同。
+> Generator(生成器)函数是ES6提供的一种异步编程解决方案，语法行为与传统函数完全不同。ES6将JavaScript异步编程带入了一个全新的阶段。
+> Generator 函数的暂停执行的效果，意味着可以把异步操作写在yield表达式里面，等到调用next方法时再往后执行。这实际上等同于不需要写回调函数了，因为异步操作的后续操作可以放在yield表达式下面
 
-ES6将JavaScript异步编程带入了一个全新的阶段
+generator函数的特性如下，后面两个特性使它可以作为异步编程的完整解决方案：
+
+* 暂停执行
+
+* 恢复执行
+
+* 函数体内外的数据交换
+
+* 错误处理机制
 
 ```javascript {cmd="node"}
-function* helloWorldGenerator() {
-  yield 'hello';
-  yield 'world';
-  return 'ending';
+// Ajax是典型的异步操作，通过Generator函数部署Ajax操作，可以用同步的方式表达。
+function* main() {
+  var result = yield request("http://some.url");
+  var resp = JSON.parse(result);
+    console.log(resp.value);
 }
-var hw = helloWorldGenerator();
-
-hw.next()  // { value: 'hello', done: false }
-hw.next()  // { value: 'world', done: false }
-hw.next()  // { value: 'ending', done: true }
-hw.next()  // { value: undefined, done: true }
-
-// yield表达式
-function* gen() {
-  yield  123 + 456;
+function request(url) {
+  makeAjaxCall(url, function(response){
+    it.next(response);
+  });
 }
-// 上面代码中，yield后面的表达式123 + 456，不会立即求值，只会在next方法将指针移到这一句时，才会求值。
+var it = main();
+it.next();
 
-var arr = [1, [[2, 3], 4], [5, 6]];
-var flat = function* (a) {
-  var length = a.length;
-  for (var i = 0; i < length; i++) {
-    var item = a[i];
-    if (typeof item !== 'number') {
-      yield* flat(item);
-    } else {
-      yield item;
-    }
-  }
-};
+// 上面代码的main函数，就是通过 Ajax 操作获取数据。可以看到，除了多了一个yield，它几乎与同步操作的写法完全一样。注意，makeAjaxCall函数中的next方法，必须加上response参数，因为yield表达式，本身是没有值的，总是等于undefined。
 
-for (var f of flat(arr)) {
-  console.log(f);
-}
-// 1, 2, 3, 4, 5, 6
 ```
 
 ## async函数
 
-ES7中的async函数更是给出了异步编程的终极解决方案
+> ES2017标准引入了async函数，使得异步操作变得更加方便。但它其实是是Generator函数的语法糖
+
+```javascript {cmd="node"}
+// 一个 Generator 函数，依次读取两个文件。
+const fs = require('fs');
+
+const readFile = function (fileName) {
+  return new Promise(function (resolve, reject) {
+    fs.readFile(fileName, function(error, data) {
+      if (error) return reject(error);
+      resolve(data);
+    });
+  });
+};
+
+const gen = function* () {
+  const f1 = yield readFile('/etc/fstab');
+  const f2 = yield readFile('/etc/shells');
+  console.log(f1.toString());
+  console.log(f2.toString());
+};
+
+// 写成async函数，就是下面这样。
+// 比较就会发现，async函数就是将 Generator 函数的星号（*）替换成async，将yield替换成await，仅此而已。
+const asyncReadFile = async function () {
+  const f1 = await readFile('/etc/fstab');
+  const f2 = await readFile('/etc/shells');
+  console.log(f1.toString());
+  console.log(f2.toString());
+};
+
+```
+
+async函数对 Generator 函数的改进，体现在以下四点。
+
+* 内置执行器
+
+* 更好的语义
+
+* 更广的适用性
+
+* 返回值是Promise
+
+详见[阮一峰es6教程](http://es6.ruanyifeng.com/#docs/async)
 
 ## 参考文章&感谢
 
@@ -193,3 +228,5 @@ ES7中的async函数更是给出了异步编程的终极解决方案
 [前端基本知识（四）：JS的异步模式：1、回调函数；2、事件监听；3、观察者模式；4、promise对象](https://www.cnblogs.com/chengxs/p/6497575.html)89  
 
 [JavaScript异步编程的终极演变](https://segmentfault.com/a/1190000006510526)
+
+[阮一峰es6教程](http://es6.ruanyifeng.com/#docs/async)

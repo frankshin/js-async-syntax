@@ -13,3 +13,6 @@ function* objectEntries(obj) {
   for (let [key, value] of objectEntries(jane)) {
     console.log(`${key}: ${value}`);
   }
+
+// first: Jane
+// last: Doe

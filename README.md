@@ -162,6 +162,24 @@ function* gen() {
   yield  123 + 456;
 }
 // 上面代码中，yield后面的表达式123 + 456，不会立即求值，只会在next方法将指针移到这一句时，才会求值。
+
+var arr = [1, [[2, 3], 4], [5, 6]];
+var flat = function* (a) {
+  var length = a.length;
+  for (var i = 0; i < length; i++) {
+    var item = a[i];
+    if (typeof item !== 'number') {
+      yield* flat(item);
+    } else {
+      yield item;
+    }
+  }
+};
+
+for (var f of flat(arr)) {
+  console.log(f);
+}
+// 1, 2, 3, 4, 5, 6
 ```
 
 ## async函数

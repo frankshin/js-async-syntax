@@ -58,8 +58,7 @@ function(e) {
     },
     r.p = "",
     r(r.s = 0)
-} ([function(e, t, r) {
-    "use strict";
-    var n = [1, 90, 3];
-    alert(n[1])
+} ([function(e, t) {
+    let[r, n] = [1, 90, 3];
+    alert(n)
 }]);

@@ -1,0 +1,31 @@
+{
+  "name": "generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress --config webpack.pro.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "@babel/preset-env": "^7.0.0-beta.55",
+    "babel-preset-env": "^1.7.0", // 在没有任何配置选项的情况下，babel-preset-env 与 babel-preset-latest（或者babel-preset-es2015，babel-preset-es2016和babel-preset-es2017一起）的行为完全相同。
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.16.4",
+    "webpack-cli": "^3.1.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5"
+  }
+}
+
+// webpack 3.x | babel-loader 8.x | babel 7.x
+npm install babel-loader@8.0.0-beta.0 @babel/core @babel/preset-env webpack
+
+// webpack 3.x babel-loader 7.x | babel 6.x
+npm install babel-loader babel-core babel-preset-env webpack

@@ -1,5 +1,4 @@
-function* f() {
-    console.log('执行了！')
-  }
-  var generator = f();
-generator.next();
+
+
+let [a, b] = [1, 90, 3]
+alert(b);

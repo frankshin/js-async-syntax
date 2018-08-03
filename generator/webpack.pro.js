@@ -10,14 +10,15 @@ module.exports = {
     mode: "production",
     // entry: './index.js',
     entry: {
-        'index': './index.js'
+        pofill: 'babel-polyfill',
+        index: './index.js'
     },
     resolve: {
         extensions: ['.ts', '.js']
     },
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: "bundle.js",
+        filename: "[name].bundle.js",
     },
     module: {
         rules: [

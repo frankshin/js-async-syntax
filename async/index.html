@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>async demos</title>
+    <script src="https://cdn.bootcss.com/async/2.6.1/async.min.js"></script>
+</head>
+<body>
+    
+</body>
+<script>
+    async function main(){
+        let result = await beginAjax();
+        return result;
+    }
+
+    // ajax js
+    function beginAjax(){
+        // await命令后面是一个 Promise 对象。如果不是，会被转成一个立即resolve的 Promise 对象。
+        // return 'dddddd';
+        const promise = new Promise(function(resolve, reject){
+            const handler = function() {
+                if (this.readyState !== 4) {
+                    return;
+                }
+                if (this.status === 200) {
+                    resolve(this.response);
+                } else {
+                    reject(new Error(this.statusText));
+                }
+            };
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = handler;
+            xhr.open("GET", './test.json', true);
+            xhr.responseType = "json";
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.timeout = 1000;
+            xhr.ontimeout = function(){
+                // code
+            }
+            xhr.send();
+        });
+        return promise;
+    }
+
+
+    main().then((res) => {
+        console.log('res', res);
+    });
+    
+</script>
+</html>

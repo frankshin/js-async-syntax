@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>手写promise实现，覆盖原生promise</title>
+    <!-- 手写promise实现，覆盖原生promise对象 -->
+    <script src="promise.min.js"></script>
 </head>
 <body>
     
@@ -12,32 +14,31 @@
 <script>
     // 原生ajax
     function ajax(method, url){
-        let xhr;
-        if(typeof XMLHttpRequest !== undefined) {
-            xhr = new XMLHttpRequest();
-        } else {
-            // ie
-        }
-        let handle = function(){
-            if(this.readyState === 4){
-                let promise = new Promise((resolve) => {
-                    // if(this.status === 200){
-                        resolve(this.response);
-                        console.log('res:', this.response);
-                    // }
-                }, (reject) => {
-                    reject(this.statusText);
-                    console.error('error:', '发生错误')
-                });
-                return promise;
+        let promise = new Promise(function(resolve, reject){
+            let xhr;
+            if(typeof XMLHttpRequest !== undefined) {
+                xhr = new XMLHttpRequest();
+            } else {
+                // ie
             }
-        }
-        xhr.open(method, url);
-        xhr.onreadystatechange = handle;
-        xhr.send(null);
+            let handle = function(){
+                if(this.readyState === 4){
+                    if(this.status === 200){
+                        resolve(this.response);
+                    } else {
+                        reject(this.statusText);
+                    }
+                }
+            }
+            xhr.open(method, url);
+            xhr.onreadystatechange = handle;
+            xhr.send(null);
+        });
+        return promise;
     }
+    
     ajax('get', 'data.json').then((res) => {
-        console.log('res:', res);
+        console.log('res2:', res);
     });
 </script>
 </html>

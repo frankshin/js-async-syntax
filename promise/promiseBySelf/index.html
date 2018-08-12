@@ -12,6 +12,7 @@
     
 </body>
 <script>
+    console.log('测试promise覆盖是否生效：', Promise);
     // 原生ajax
     function ajax(method, url){
         let promise = new Promise(function(resolve, reject){
@@ -37,8 +38,10 @@
         return promise;
     }
     
-    ajax('get', 'data.json').then((res) => {
-        console.log('res2:', res);
-    });
+    // ajax('get', 'data.json').then((res) => {
+    //     console.log('res2:', res);
+    // });
+
+    ajax('get', 'data.json');
 </script>
 </html>

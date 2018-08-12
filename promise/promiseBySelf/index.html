@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手写promise实现，覆盖原生promise</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 原生ajax
+    function ajax(method, url){
+        let xhr;
+        if(typeof XMLHttpRequest !== undefined) {
+            xhr = new XMLHttpRequest();
+        } else {
+            // ie
+        }
+        let handle = function(){
+            if(this.readyState === 4){
+                let promise = new Promise((resolve) => {
+                    // if(this.status === 200){
+                        resolve(this.response);
+                        console.log('res:', this.response);
+                    // }
+                }, (reject) => {
+                    reject(this.statusText);
+                    console.error('error:', '发生错误')
+                });
+                return promise;
+            }
+        }
+        xhr.open(method, url);
+        xhr.onreadystatechange = handle;
+        xhr.send(null);
+    }
+    ajax('get', 'data.json').then((res) => {
+        console.log('res:', res);
+    });
+</script>
+</html>

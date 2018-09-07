@@ -253,7 +253,9 @@ function fn(args) {
 
 ## 其他
 
-### RxJS（Observable对象格式）
+### RxJS
+
+> 概述：Observable对象格式
 
 ## 参考文章&感谢
 

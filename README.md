@@ -127,6 +127,15 @@ jQuery.unsubscribe("done", f2);
 > Promise的概念并不是ES6新出的，而是ES6整合了一套新的写法。同样继续上面的例子，使用Promise代码就变成这样了：
 
 ```javascript {cmd="node"}
+ /* promise的api方法：
+ * promise construct
+ * then
+ * resolve/reject
+ * catch
+ * all
+ * race: 顾名思义，Promse.race就是赛跑的意思，意思就是Promise.race([p1, p2, p3])里面哪个结果获得的快就返回那个结果
+ * finally:
+ */
 var readFile = require('fs-readfile-promise');
 readFile(fileA)
 .then((data)=>{console.log(data)})

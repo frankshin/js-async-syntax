@@ -266,7 +266,7 @@ function fn(args) {
 
 > 概述：Observable对象格式
 
-## 参考文章&感谢
+## 参考文章&感谢
 
 [JS的四种异步方式：：回调/监听/流程控制库/promise](https://blog.csdn.net/lilongsy/article/details/74351989?utm_source=itdadao&utm_medium=referral)
 

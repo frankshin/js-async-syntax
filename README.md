@@ -2,14 +2,14 @@
 
 ```
 目录结构：
-|—— 回调函数
-|—— 事件监听
-|—— 发布/订阅
-|—— promise
-|—— generator（es6生产函数）
-|—— async（es7异步函数）
-|—— 其他
-    |—— Rxjs(Observable对象)
+|— 回调函数
+|— 事件监听
+|— 发布/订阅
+|— promise
+|— generator（es6生产函数）
+|— async（es7异步函数）
+|— 其他
+   |— Rxjs(Observable对象)
 ```
 
 > 此demo项目仅作为个人对js整个异步编程发展的总结汇总，遂参考了多方资料，已在末尾备注

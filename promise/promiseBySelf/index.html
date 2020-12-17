@@ -1,47 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>手写promise实现，覆盖原生promise</title>
-    <!-- 手写promise实现，覆盖原生promise对象 -->
-    <script src="promise.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>手写promise实现，覆盖原生promise</title>
+  <!-- 手写promise实现，覆盖原生promise对象 -->
+  <script src="promise.js"></script>
 </head>
 <body>
     
 </body>
 <script>
-    // 原生ajax
-    function ajax(method, url){
-        let promise = new Promise(function(resolve, reject){
-            let xhr;
-            if(typeof XMLHttpRequest !== undefined) {
-                xhr = new XMLHttpRequest();
-            } else {
-                // ie
-            }
-            let handle = function(){
-                if(this.readyState === 4){
-                    if(this.status === 200){
-                        resolve(this.response);
-                    } else {
-                        reject(this.statusText);
-                    }
-                }
-            }
-            xhr.open(method, url);
-            xhr.onreadystatechange = handle;
-            xhr.send(null);
-        });
-        return promise;
-    }
-    
-    ajax('get', 'data.json').then((res) => {
-        console.log('res2:', res);
+  // 原生ajax
+  function ajax(method, url){
+    let promise = new Promise(function(resolve, reject){
+      let xhr;
+      if(typeof XMLHttpRequest !== undefined) {
+        xhr = new XMLHttpRequest();
+      } else {
+        // ie
+      }
+      let handle = function(){
+        if(this.readyState === 4){
+          if(this.status === 200){
+            resolve(this.response);
+          } else {
+            reject(this.statusText);
+          }
+        }
+      }
+      xhr.open(method, url);
+      xhr.onreadystatechange = handle;
+      xhr.send(null);
     });
-
-    // ajax('get', 'data.json');
-
+    return promise;
+  }
+  
+  ajax('get', 'data.json').then((res) => {
+    console.log('res2:', res);
+  });
+  // ajax('get', 'data.json');
 </script>
 </html>
